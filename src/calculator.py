@@ -1,6 +1,10 @@
-def read_transform_calculate_format():
+def read_data():
     # les alle data fra fila rett utenfor her
     data = open('./../data/calculations.csv').read()
+    return data
+
+def read_transform_calculate_format():
+    data = read_data()
     # transformer dataene til linjer
     lines = data.split('\n')
     # forbered total og rapport
@@ -24,6 +28,13 @@ def read_transform_calculate_format():
     # skriv ut totalsum
     report += 'Total: ' + str(total)
     return report
+
+
+def read_data():
+    # les alle data fra fila rett utenfor her
+    data = open('./../data/calculations.csv').read()
+    return data
+
 
 # gjør dette hvis det er denne .py-fila som ble kjørt
 if __name__ == "__main__":
