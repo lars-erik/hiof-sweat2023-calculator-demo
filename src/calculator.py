@@ -1,11 +1,11 @@
-# gjør dette hvis det er denne .py-fila som ble kjørt
-if __name__ == "__main__":
+def read_transform_calculate_format():
     # les alle data fra fila rett utenfor her
     data = open('./../data/calculations.csv').read()
     # transformer dataene til linjer
     lines = data.split('\n')
-    # forbered total
+    # forbered total og rapport
     total = 0
+    report = ''
     # iterer over alle linjer
     for line in lines:
         # hopp over første linje
@@ -13,14 +13,19 @@ if __name__ == "__main__":
         # vask bort linjeskift og splitt på komma
         cols = line.strip('\n').split(',')
         # skriv ut venstre side av regnestykket
-        print(cols[0] + ' + ' + cols[1], end='')
+        report += cols[0] + ' + ' + cols[1]
         # transformer tekst til tall
         x = int(cols[0])
         y = int(cols[1])
         # skriv ut høre side av regnestykket
-        print(' = ' + str(x + y))
+        report += ' = ' + str(x + y) + '\n'
         # aggreger totalsum
         total += x + y
     # skriv ut totalsum
-    print('Total: ' + str(total))
+    report += 'Total: ' + str(total)
+    return report
+
+# gjør dette hvis det er denne .py-fila som ble kjørt
+if __name__ == "__main__":
+    print(read_transform_calculate_format())
 
