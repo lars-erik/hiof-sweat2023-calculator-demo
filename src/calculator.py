@@ -2,6 +2,11 @@ import sys
 
 
 class CalculatorProgram:
+
+    def __init__(self, calculate_operation, operator):
+        self.calculate_operation = calculate_operation
+        self.operator = operator
+
     def read_transform_calculate_format(self):
         data = self.read_data()
         operations = self.parse_operations(data)
@@ -26,11 +31,9 @@ class CalculatorProgram:
     def format_report(self, operations, total):
         report = ''
         for op in operations:
-            report += f"{op['x']} {self.format_operator()} {op['y']} = {op['subtotal']}\n"
+            report += f"{op['x']} {self.operator} {op['y']} = {op['subtotal']}\n"
         report += 'Total: ' + str(total)
         return report
-
-    def format_operator(self): return '+'
 
     def calculate(self, operations):
         total = 0
@@ -40,25 +43,13 @@ class CalculatorProgram:
             total = self.calculate_operation(total, subtotal)
         return total
 
-    def calculate_operation(self, x, y):
-        return x + y
-
-class SubtractionProgram(CalculatorProgram):
-    def calculate_operation(self, x, y):
-        return x - y
-
-    def format_operator(self): return '-'
 
 
 if __name__ == "__main__":
     program = (
-        SubtractionProgram() if len(sys.argv) > 1 and sys.argv[1] == 'sub'
+        CalculatorProgram(lambda x, y: x - y, '-') if len(sys.argv) > 1 and sys.argv[1] == 'sub'
         else
-        CalculatorProgram()
+        CalculatorProgram(lambda x, y: x + y, '+')
     )
 
     print(program.read_transform_calculate_format())
-
-
-
-
