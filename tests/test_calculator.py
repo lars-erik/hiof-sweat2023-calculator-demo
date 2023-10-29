@@ -1,9 +1,9 @@
 from approvaltests import approvals
 
-from calculator import read_transform_calculate_format
+from calculator import CalculatorProgram
 
 
 def test_calculations():
-   report = read_transform_calculate_format()
+   report = CalculatorProgram().read_transform_calculate_format()
    approvals.verify(report)
 
