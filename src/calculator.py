@@ -1,22 +1,15 @@
 def read_transform_calculate_format():
     data = read_data()
     operations = parse_operations(data)
-
-    # forbered total og rapport
-    total = 0
-    report = ''
-    # iterer over alle operasjoner
-    for op in operations:
-        # aggreger totalsum
-        total += op['x'] + op['y']
-        # skriv ut venstre side av regnestykket
-        report += f"{op['x']} + {op['y']}"
-        # skriv ut høyre side av regnestykket
-        report += f" = {op['x'] + op['y']}\n"
-
-    # skriv ut totalsum
-    report += 'Total: ' + str(total)
+    total = calculate(operations)
+    report = format_report(operations, total)
     return report
+
+
+def read_data():
+    # les alle data fra fila rett utenfor her
+    data = open('./../data/calculations.csv').read()
+    return data
 
 
 def parse_operations(data):
@@ -38,10 +31,29 @@ def parse_operations(data):
     return operations
 
 
-def read_data():
-    # les alle data fra fila rett utenfor her
-    data = open('./../data/calculations.csv').read()
-    return data
+def format_report(operations, total):
+    # forbered rapport
+    report = ''
+    # iterer over alle operasjoner
+    for op in operations:
+        # skriv ut regnestykket
+        report += f"{op['x']} + {op['y']} = {op['subtotal']}\n"
+    # skriv ut totalsum
+    report += 'Total: ' + str(total)
+    return report
+
+
+def calculate(operations):
+    # forbered total
+    total = 0
+    # iterer over alle operasjoner
+    for op in operations:
+        # beregn subtotal
+        subtotal = op['x'] + op['y']
+        op['subtotal'] = subtotal
+        # aggreger totalsum
+        total += subtotal
+    return total
 
 
 # gjør dette hvis det er denne .py-fila som ble kjørt
