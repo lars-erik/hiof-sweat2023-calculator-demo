@@ -7,24 +7,33 @@ def read_transform_calculate_format():
     data = read_data()
     # transformer dataene til linjer
     lines = data.split('\n')
-    # forbered total og rapport
-    total = 0
-    report = ''
+
+    # forbered operasjoner
+    operations = []
     # iterer over alle linjer
     for line in lines:
         # hopp over første linje
         if line.startswith('X'): continue
-        # vask bort linjeskift og splitt på komma
-        cols = line.strip('\n').split(',')
-        # skriv ut venstre side av regnestykket
-        report += cols[0] + ' + ' + cols[1]
+        # splitt på komma
+        cols = line.split(',')
         # transformer tekst til tall
         x = int(cols[0])
         y = int(cols[1])
-        # skriv ut høre side av regnestykket
-        report += ' = ' + str(x + y) + '\n'
+        # legg til operasjon
+        operations.append({'x':x, 'y':y})
+
+    # forbered total og rapport
+    total = 0
+    report = ''
+    # iterer over alle operasjoner
+    for op in operations:
         # aggreger totalsum
-        total += x + y
+        total += op['x'] + op['y']
+        # skriv ut venstre side av regnestykket
+        report += f"{op['x']} + {op['y']}"
+        # skriv ut høyre side av regnestykket
+        report += f" = {op['x'] + op['y']}\n"
+
     # skriv ut totalsum
     report += 'Total: ' + str(total)
     return report
