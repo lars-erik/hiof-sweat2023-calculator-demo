@@ -1,26 +1,6 @@
-def read_data():
-    # les alle data fra fila rett utenfor her
-    data = open('./../data/calculations.csv').read()
-    return data
-
 def read_transform_calculate_format():
     data = read_data()
-    # transformer dataene til linjer
-    lines = data.split('\n')
-
-    # forbered operasjoner
-    operations = []
-    # iterer over alle linjer
-    for line in lines:
-        # hopp over første linje
-        if line.startswith('X'): continue
-        # splitt på komma
-        cols = line.split(',')
-        # transformer tekst til tall
-        x = int(cols[0])
-        y = int(cols[1])
-        # legg til operasjon
-        operations.append({'x':x, 'y':y})
+    operations = parse_operations(data)
 
     # forbered total og rapport
     total = 0
@@ -37,6 +17,25 @@ def read_transform_calculate_format():
     # skriv ut totalsum
     report += 'Total: ' + str(total)
     return report
+
+
+def parse_operations(data):
+    # transformer dataene til linjer
+    lines = data.split('\n')
+    # forbered operasjoner
+    operations = []
+    # iterer over alle linjer
+    for line in lines:
+        # hopp over første linje
+        if line.startswith('X'): continue
+        # splitt på komma
+        cols = line.split(',')
+        # transformer tekst til tall
+        x = int(cols[0])
+        y = int(cols[1])
+        # legg til operasjon
+        operations.append({'x': x, 'y': y})
+    return operations
 
 
 def read_data():
