@@ -1,24 +1,10 @@
 import sys
 
 
-class CalculatorProgram:
-
-    def __init__(self, calculate_operation, operator):
-        self.calculate_operation = calculate_operation
-        self.operator = operator
-
-    def read_transform_calculate_format(self):
-        data = self.read_data()
-        operations = self.parse_operations(data)
-        total = self.calculate(operations)
-        report = self.format_report(operations, total)
-        return report
-
-
+class ExpressionParser:
     def read_data(self):
         data = open('./../data/calculations.csv').read()
         return data
-
 
     def parse_operations(self, data):
         lines = map(lambda l: l.split(','), data.split('\n'))
@@ -27,6 +13,20 @@ class CalculatorProgram:
             operations.append({'x': (int(line[0])), 'y': (int(line[1]))})
         return operations
 
+
+class CalculatorProgram():
+
+    def __init__(self, calculate_operation, operator, parser):
+        self.parser = parser
+        self.calculate_operation = calculate_operation
+        self.operator = operator
+
+    def read_transform_calculate_format(self):
+        data = self.parser.read_data()
+        operations = self.parser.parse_operations(data)
+        total = self.calculate(operations)
+        report = self.format_report(operations, total)
+        return report
 
     def format_report(self, operations, total):
         report = ''
@@ -47,9 +47,9 @@ class CalculatorProgram:
 
 if __name__ == "__main__":
     program = (
-        CalculatorProgram(lambda x, y: x - y, '-') if len(sys.argv) > 1 and sys.argv[1] == 'sub'
+        CalculatorProgram(lambda x, y: x - y, '-', ExpressionParser()) if len(sys.argv) > 1 and sys.argv[1] == 'sub'
         else
-        CalculatorProgram(lambda x, y: x + y, '+')
+        CalculatorProgram(lambda x, y: x + y, '+', ExpressionParser())
     )
 
     print(program.read_transform_calculate_format())
