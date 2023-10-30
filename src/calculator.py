@@ -2,13 +2,13 @@ import sys
 
 from ExpressionParser import ExpressionParser
 from ExpressionReader import ExpressionReader
+from Operators import Subtraction, Addition
 
 
 class CalculatorProgram():
 
-    def __init__(self, calculate_operation, operator, parser):
+    def __init__(self, operator, parser):
         self.parser = parser
-        self.calculate_operation = calculate_operation
         self.operator = operator
 
     def read_transform_calculate_format(self):
@@ -20,26 +20,26 @@ class CalculatorProgram():
     def format_report(self, operations, total):
         report = ''
         for op in operations:
-            report += f"{op['x']} {self.operator} {op['y']} = {op['subtotal']}\n"
+            report += f"{op.left} {str(op.operator)} {op.right} = {op.calculate()}\n"
         report += 'Total: ' + str(total)
         return report
 
     def calculate(self, operations):
         total = 0
         for op in operations:
-            subtotal = self.calculate_operation(op['x'], op['y'])
-            op['subtotal'] = subtotal
-            total = self.calculate_operation(total, subtotal)
+            subtotal = op.calculate()
+            total = self.operator.calculate(total, subtotal)
         return total
 
 
 
 if __name__ == "__main__":
-    parser = ExpressionParser(ExpressionReader())
-    program = (
-        CalculatorProgram(lambda x, y: x - y, '-', parser) if len(sys.argv) > 1 and sys.argv[1] == 'sub'
+    operator = (
+        Subtraction() if len(sys.argv) > 1 and sys.argv[1] == 'sub'
         else
-        CalculatorProgram(lambda x, y: x + y, '+', parser)
+        Addition()
     )
+    parser = ExpressionParser(ExpressionReader(), operator)
+    program = CalculatorProgram(operator, parser)
 
     print(program.read_transform_calculate_format())
