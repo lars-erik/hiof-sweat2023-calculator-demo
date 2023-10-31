@@ -14,7 +14,7 @@ class CalculatorProgram():
         self.operator = operator
         self.reporter = reporter
 
-    def read_transform_calculate_format(self):
+    def execute(self):
         operations = self.parser.parse_operations()
         aggregation = Aggregation(operations, self.operator)
         aggregation.calculate()
@@ -31,4 +31,4 @@ if __name__ == "__main__":
     parser = ExpressionParser(ExpressionReader(), operator)
     program = CalculatorProgram(operator, parser, AsciiReporter())
 
-    print(program.read_transform_calculate_format())
+    print(program.execute())

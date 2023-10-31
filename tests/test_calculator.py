@@ -10,11 +10,11 @@ reporter = AsciiReporter()
 
 def test_addition():
    parser = ExpressionParser(ExpressionReader(), Addition())
-   report = CalculatorProgram(Addition(), parser, reporter).read_transform_calculate_format()
+   report = CalculatorProgram(Addition(), parser, reporter).execute()
    approvals.verify(report)
 
 def test_subtraction():
    parser = ExpressionParser(ExpressionReader(), Subtraction())
-   report = CalculatorProgram(Subtraction(), parser, reporter).read_transform_calculate_format()
+   report = CalculatorProgram(Subtraction(), parser, reporter).execute()
    approvals.verify(report)
 
