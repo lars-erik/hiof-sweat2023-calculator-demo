@@ -1,5 +1,6 @@
 import sys
 
+from Aggregation import Aggregation
 from ExpressionParser import ExpressionParser
 from ExpressionReader import ExpressionReader
 from Operators import Subtraction, Addition
@@ -13,24 +14,17 @@ class CalculatorProgram():
 
     def read_transform_calculate_format(self):
         operations = self.parser.parse_operations()
-        total = self.calculate(operations)
-        report = self.format_report(operations, total)
+        aggregation = Aggregation(operations, self.operator)
+        aggregation.calculate()
+        report = self.format_report(aggregation)
         return report
 
-    def format_report(self, operations, total):
+    def format_report(self, aggregation):
         report = ''
-        for op in operations:
+        for op in aggregation.operations:
             report += f"{op.left} {str(op.operator)} {op.right} = {op.calculate()}\n"
-        report += 'Total: ' + str(total)
+        report += 'Total: ' + str(aggregation.total)
         return report
-
-    def calculate(self, operations):
-        total = 0
-        for op in operations:
-            subtotal = op.calculate()
-            total = self.operator.calculate(total, subtotal)
-        return total
-
 
 
 if __name__ == "__main__":
